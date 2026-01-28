@@ -5,6 +5,8 @@ import com.example.precamp_quest.domain.product.dto.ProductResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class ProductService {
@@ -28,5 +30,11 @@ public class ProductService {
                 .orElseThrow(() -> new IllegalArgumentException("not found product"));
 
         return ProductResponseDto.toDto(product);
+    }
+
+    public List<ProductResponseDto> findProductList() {
+        List<Product> productList = repository.findAll();
+
+        return ProductResponseDto.toDto(productList);
     }
 }
