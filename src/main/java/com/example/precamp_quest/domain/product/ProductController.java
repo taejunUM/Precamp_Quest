@@ -5,10 +5,7 @@ import com.example.precamp_quest.domain.product.dto.ProductResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,9 +18,19 @@ public class ProductController {
     public ResponseEntity<ProductResponseDto> create(
             @RequestBody ProductCreateRequestDto dto
     ) {
-        ProductResponseDto response = productService.create(dto);
+        ProductResponseDto response = productService.createProduct(dto);
 
         return ResponseEntity.status(HttpStatus.CREATED)
+                .body(response);
+    }
+
+    @GetMapping("/{productId}")
+    public ResponseEntity<ProductResponseDto> findProduct(
+            @PathVariable Long productId
+    ) {
+        ProductResponseDto response = productService.findProduct(productId);
+
+        return ResponseEntity.status(HttpStatus.OK)
                 .body(response);
     }
 }

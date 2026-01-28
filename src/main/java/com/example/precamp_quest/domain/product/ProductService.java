@@ -11,8 +11,7 @@ public class ProductService {
 
     private final ProductRepository repository;
 
-    public ProductResponseDto create(ProductCreateRequestDto dto) {
-
+    public ProductResponseDto createProduct(ProductCreateRequestDto dto) {
         Product product = Product.create(
                 dto.name(),
                 dto.price(),
@@ -22,5 +21,12 @@ public class ProductService {
         Product saved = repository.save(product);
 
         return ProductResponseDto.toDto(saved);
+    }
+
+    public ProductResponseDto findProduct(Long productId) {
+        Product product = repository.findById(productId)
+                .orElseThrow(() -> new IllegalArgumentException("not found product"));
+
+        return ProductResponseDto.toDto(product);
     }
 }
