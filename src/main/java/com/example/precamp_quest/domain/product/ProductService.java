@@ -55,4 +55,12 @@ public class ProductService {
 
         return ProductResponseDto.toDto(product);
     }
+
+    @Transactional
+    public void deleteProduct(Long productId) {
+        Product product = repository.findById(productId)
+                .orElseThrow(() -> new IllegalArgumentException("not found product"));
+
+        repository.delete(product);
+    }
 }
