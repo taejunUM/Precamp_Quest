@@ -2,6 +2,7 @@ package com.example.precamp_quest.domain.product;
 
 import com.example.precamp_quest.domain.product.dto.ProductCreateRequestDto;
 import com.example.precamp_quest.domain.product.dto.ProductResponseDto;
+import com.example.precamp_quest.domain.product.dto.ProductUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,6 +40,17 @@ public class ProductController {
     @GetMapping
     public ResponseEntity<List<ProductResponseDto>> findProductList() {
         List<ProductResponseDto> response = productService.findProductList();
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(response);
+    }
+
+    @PatchMapping("/{productId}")
+    public ResponseEntity<ProductResponseDto> updateProduct(
+            @PathVariable Long productId,
+            @RequestBody ProductUpdateRequestDto dto
+    ) {
+        ProductResponseDto response = productService.updateProduct(productId, dto);
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(response);
