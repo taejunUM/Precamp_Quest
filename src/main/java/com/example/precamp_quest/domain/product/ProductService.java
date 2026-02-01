@@ -1,8 +1,8 @@
 package com.example.precamp_quest.domain.product;
 
-import com.example.precamp_quest.domain.product.dto.ProductCreateRequestDto;
-import com.example.precamp_quest.domain.product.dto.ProductResponseDto;
-import com.example.precamp_quest.domain.product.dto.ProductUpdateRequestDto;
+import com.example.precamp_quest.domain.product.dto.request.ProductCreateRequestDto;
+import com.example.precamp_quest.domain.product.dto.response.ProductResponseDto;
+import com.example.precamp_quest.domain.product.dto.request.ProductUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
