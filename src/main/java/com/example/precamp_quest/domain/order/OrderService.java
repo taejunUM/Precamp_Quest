@@ -26,4 +26,11 @@ public class OrderService {
         return OrderResponseDto.toDto(orderRepository.save(order));
     }
 
+    public OrderResponseDto findOrder(Long orderId) {
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new IllegalArgumentException("not found order"));
+
+        return OrderResponseDto.toDto(order);
+    }
+
 }
