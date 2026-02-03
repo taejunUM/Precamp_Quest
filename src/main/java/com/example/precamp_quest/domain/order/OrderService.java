@@ -10,8 +10,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -22,8 +20,7 @@ public class OrderService {
 
     @Transactional
     public OrderResponseDto createOrder(OrderCreateRequestDto dto) {
-        Product product = productRepository.findById(dto.productId())
-                .orElseThrow(() -> new IllegalArgumentException("not found product"));
+        Product product = findProductByProductId(dto.productId());
 
         Order order = Order.create(product);
 
@@ -31,15 +28,23 @@ public class OrderService {
     }
 
     public OrderResponseDto findOrder(Long orderId) {
-        Order order = orderRepository.findById(orderId)
-                .orElseThrow(() -> new IllegalArgumentException("not found order"));
+        Order order = findOrderByOrderId(orderId);
 
         return OrderResponseDto.toDto(order);
     }
 
     public Page<OrderResponseDto> findOrderPage(Pageable pageable) {
-
         return orderRepository.findOrderPage(pageable);
     }
 
+    /* ==== Private Helper ==== */
+    private Product findProductByProductId(Long productId) {
+        return productRepository.findById(productId)
+                .orElseThrow(() -> new IllegalArgumentException("Not Found Product"));
+    }
+
+    private Order findOrderByOrderId(Long orderId) {
+        return orderRepository.findById(orderId)
+                .orElseThrow(() -> new IllegalArgumentException("Not Found Order"));
+    }
 }

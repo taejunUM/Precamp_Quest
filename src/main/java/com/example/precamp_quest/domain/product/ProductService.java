@@ -30,8 +30,7 @@ public class ProductService {
     }
 
     public ProductResponseDto findProduct(Long productId) {
-        Product product = repository.findById(productId)
-                .orElseThrow(() -> new IllegalArgumentException("not found product"));
+        Product product = findProductByProductId(productId);
 
         return ProductResponseDto.toDto(product);
     }
@@ -44,12 +43,11 @@ public class ProductService {
 
     @Transactional
     public ProductResponseDto updateProduct(Long productId, ProductUpdateRequestDto dto) {
-        Product product = repository.findById(productId)
-                .orElseThrow(() -> new IllegalArgumentException("not found product"));
+        Product product = findProductByProductId(productId);
 
-        String name = (dto.name() != null) ? dto.name() : product.getName();
-        int price = (dto.price() != null) ? dto.price() : product.getPrice();
-        String description = (dto.description() != null) ? dto.description() : product.getDescription();
+        String name = resolveValue(dto.name(), product.getName());
+        int price = resolveValue(dto.price(), product.getPrice());
+        String description = resolveValue(dto.description(), product.getDescription());
 
         product.update(name, price, description);
 
@@ -58,9 +56,20 @@ public class ProductService {
 
     @Transactional
     public void deleteProduct(Long productId) {
-        Product product = repository.findById(productId)
-                .orElseThrow(() -> new IllegalArgumentException("not found product"));
+        Product product = findProductByProductId(productId);
 
         repository.delete(product);
     }
+
+    /* ==== Private Helper ==== */
+    private Product findProductByProductId(Long productId) {
+        return repository.findById(productId)
+                .orElseThrow(() -> new IllegalArgumentException("Not Found Product"));
+    }
+
+    private <T> T resolveValue(T newValue, T oldValue) {
+        return newValue != null ? newValue : oldValue;
+    }
+
+
 }
