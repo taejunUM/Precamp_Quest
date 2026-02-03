@@ -2,11 +2,12 @@ package com.example.precamp_quest.domain.order;
 
 import com.example.precamp_quest.domain.order.dto.request.OrderCreateRequestDto;
 import com.example.precamp_quest.domain.order.dto.response.OrderResponseDto;
-import com.example.precamp_quest.domain.product.dto.response.ProductResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -30,6 +31,14 @@ public class OrderController {
             @PathVariable Long orderId
     ) {
         OrderResponseDto response = orderService.findOrder(orderId);
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(response);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<OrderResponseDto>> findOrderList() {
+        List<OrderResponseDto> response = orderService.findOrderList();
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(response);

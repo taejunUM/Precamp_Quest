@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -31,6 +33,12 @@ public class OrderService {
                 .orElseThrow(() -> new IllegalArgumentException("not found order"));
 
         return OrderResponseDto.toDto(order);
+    }
+
+    public List<OrderResponseDto> findOrderList() {
+        List<Order> orderList = orderRepository.findAllOrderList();
+
+        return OrderResponseDto.toDto(orderList);
     }
 
 }
