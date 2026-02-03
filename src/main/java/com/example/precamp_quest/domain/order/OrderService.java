@@ -5,6 +5,8 @@ import com.example.precamp_quest.domain.order.dto.response.OrderResponseDto;
 import com.example.precamp_quest.domain.product.Product;
 import com.example.precamp_quest.domain.product.ProductRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,10 +37,9 @@ public class OrderService {
         return OrderResponseDto.toDto(order);
     }
 
-    public List<OrderResponseDto> findOrderList() {
-        List<Order> orderList = orderRepository.findAllOrderList();
+    public Page<OrderResponseDto> findOrderPage(Pageable pageable) {
 
-        return OrderResponseDto.toDto(orderList);
+        return orderRepository.findOrderPage(pageable);
     }
 
 }
